@@ -1,69 +1,117 @@
-import Image from "next/image";
+"use client";
+
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import dynamic from "next/dynamic";
+import Navbar from "../components/Navbar";
+import Portfolio from "../components/Portfolio";
+import Showcase from "../components/Showcase";
+import Footer from "../components/Footer";
+
+// Dinamički uvozi bez SSR-a
+const Blueprint = dynamic(() => import("../components/Blueprint"), { ssr: false });
+const Hero3D = dynamic(() => import("../components/Hero3D"), { ssr: false });
+const BackgroundStars = dynamic(() => import("../components/BackgroundStars"), {
+  ssr: false,
+});
 
 export default function Home() {
+  const scrollToSection = (id: string) => {
+    if (id === "kontakt") {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: "smooth",
+      });
+      return;
+    }
+    const target = document.getElementById(id);
+    if (target) {
+      const navbarHeight = 80;
+      const top = target.getBoundingClientRect().top + window.scrollY - navbarHeight;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <>
+      {/* Zvjezdice fiksirane po cijeloj stranici */}
+      <BackgroundStars />
+
+      <Navbar />
+
+      <main className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden pt-20">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-200 bg-(image:--background-image-glow-gradient) rounded-full pointer-events-none" />
+
+        {/* 3D Kristal koji ostaje na vrhu */}
+        <Hero3D />
+
+        <div className="z-10 text-center px-4 max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            className="inline-block mb-6 px-4 py-1.5 rounded-full border border-gold/20 bg-surface/50 backdrop-blur-sm"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <span className="text-xs uppercase tracking-[0.2em] text-gold/80 font-medium">
+              Digitalna izvrsnost u Istri i šire
+            </span>
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+            className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 tracking-tighter leading-tight"
           >
-            Documentation
-          </a>
+            Budućnost je <br />
+            <span className="text-gradient-gold italic pr-4">Bezgranična.</span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+            className="text-foreground/60 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light leading-relaxed"
+          >
+            TM Studio spaja inženjersku preciznost s dizajnerskom estetikom. Kreiramo digitalna iskustva koja ostavljaju trag.
+          </motion.p>
+
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => scrollToSection("portfolio")}
+            className="group relative flex items-center justify-center gap-3 mx-auto px-10 py-5 bg-gold text-background font-bold uppercase tracking-widest text-sm rounded-none border-2 border-gold hover:bg-transparent hover:text-gold transition-all duration-300 cursor-pointer"
+          >
+            Istraži Portfolio
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <span className="absolute -top-1 -left-1 w-2 h-2 border-t-2 border-l-2 border-background mix-blend-difference"></span>
+            <span className="absolute -bottom-1 -right-1 w-2 h-2 border-b-2 border-r-2 border-background mix-blend-difference"></span>
+          </motion.button>
         </div>
       </main>
-    </div>
+
+      {/* Sekcija Usluge */}
+      <div id="usluge" className="scroll-mt-20 relative z-10">
+        <Showcase />
+      </div>
+
+      {/* Sekcija Portfolio */}
+      <div id="portfolio" className="scroll-mt-20 relative z-10">
+        <Portfolio />
+      </div>
+
+      {/* Sekcija Vizija -> Ovdje sada ubacujemo The Blueprint! */}
+      <div id="vizija" className="scroll-mt-20 relative z-10">
+        <Blueprint />
+      </div>
+
+      {/* Sekcija Kontakt / Footer */}
+      <div id="kontakt" className="scroll-mt-20 relative z-10">
+        <Footer />
+      </div>
+    </>
   );
 }
