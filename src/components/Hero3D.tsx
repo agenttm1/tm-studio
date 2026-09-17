@@ -9,6 +9,10 @@ import * as THREE from "three";
 // bez uvijanja u z-osi koje ga je prije činilo spljoštenim/iskrivljenim sa strane.
 // TubeGeometry mu daje 3D volumen kroz debljinu cijevi, ne kroz uvijenu putanju.
 class InfinityCurve extends THREE.Curve<THREE.Vector3> {
+  constructor() {
+    super();
+  }
+
   getPoint(t: number) {
     const angle = t * Math.PI * 2;
     const scale = 1.9;
