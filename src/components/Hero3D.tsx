@@ -2,14 +2,47 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
-import { useRef } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import * as THREE from "three";
 
-function GoldCrystal() {
-  const meshRef = useRef<THREE.Mesh>(null!);
-  const wireframeRef = useRef<THREE.Mesh>(null!);
+// Ravna (planarna) matematička lemniskata — pravi oblik "∞" gledano sprijeda,
+// bez uvijanja u z-osi koje ga je prije činilo spljoštenim/iskrivljenim sa strane.
+// TubeGeometry mu daje 3D volumen kroz debljinu cijevi, ne kroz uvijenu putanju.
+class InfinityCurve extends THREE.Curve<THREE.Vector3> {
+  getPoint(t: number) {
+    const angle = t * Math.PI * 2;
+    const scale = 1.9;
+    const x = scale * Math.cos(angle);
+    const y = scale * Math.sin(angle) * Math.cos(angle);
+    return new THREE.Vector3(x, y, 0);
+  }
+}
 
-  useFrame((state, delta) => {
+// Detektira mobilni viewport da smanjimo oblik i spriječimo da viri van ekrana.
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return isMobile;
+}
+
+function InfinityLogo() {
+  const meshRef = useRef<THREE.Mesh>(null!);
+  const isMobile = useIsMobile();
+
+  const curve = useMemo(() => new InfinityCurve(), []);
+  const geometry = useMemo(
+    () => new THREE.TubeGeometry(curve, 200, 0.3, 32, true),
+    [curve]
+  );
+
+  // Rotacija: kursor pomiče oblik (lerp za glatkoću) PLUS stalna spora vrtnja
+  // u pozadini — vraćeno kako je bilo prije.
+  useFrame((state) => {
     const targetX = (state.pointer.x * Math.PI) / 5;
     const targetY = (state.pointer.y * Math.PI) / 5;
 
@@ -23,37 +56,19 @@ function GoldCrystal() {
       -targetY,
       0.05
     );
-
-    if (wireframeRef.current) {
-      wireframeRef.current.rotation.y -= delta * 0.25;
-      wireframeRef.current.rotation.x += delta * 0.12;
-    }
   });
 
   return (
-    <Float speed={2} rotationIntensity={0.4} floatIntensity={0.8}>
-      <group>
-        <mesh ref={meshRef} scale={1.8}>
-          <icosahedronGeometry args={[1, 0]} />
-          <meshStandardMaterial
-            color="#0d0a04"
-            roughness={0.1}
-            metalness={0.95}
-            emissive="#d4af37"
-            emissiveIntensity={0.2}
-          />
-        </mesh>
-
-        <mesh ref={wireframeRef} scale={2.35}>
-          <icosahedronGeometry args={[1, 1]} />
-          <meshBasicMaterial
-            color="#d4af37"
-            wireframe
-            transparent
-            opacity={0.22}
-          />
-        </mesh>
-      </group>
+    <Float speed={1.5} rotationIntensity={0.15} floatIntensity={0.6}>
+      <mesh ref={meshRef} geometry={geometry} scale={isMobile ? 0.6 : 1}>
+        <meshStandardMaterial
+          color="#d4af37"
+          roughness={0.25}
+          metalness={1}
+          emissive="#a8791f"
+          emissiveIntensity={0.15}
+        />
+      </mesh>
     </Float>
   );
 }
@@ -67,8 +82,11 @@ export default function Hero3D() {
         <pointLight position={[-10, -10, -10]} intensity={1.5} color="#ffffff" />
         <pointLight position={[0, -5, 5]} intensity={1.2} color="#d4af37" />
 
-        <GoldCrystal />
+        <InfinityLogo />
       </Canvas>
+
+      {/* Fade prema sljedećoj sekciji — sprječava oštar rez na dnu Hero sekcije */}
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black to-transparent" />
     </div>
   );
 }

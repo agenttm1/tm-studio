@@ -143,6 +143,10 @@ export default function Blueprint() {
 
           </div>
         </div>
+
+        {/* Fade prema sljedećoj sekciji — sprječava oštar rez na dnu pinane
+            sekcije, bez obzira slaže li se #020202 točno s bojom iza nje. */}
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black to-transparent z-20" />
       </div>
     </section>
   );

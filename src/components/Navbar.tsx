@@ -31,6 +31,15 @@ export default function Navbar() {
     };
   }, []);
 
+  // NOVO: zaključaj scroll pozadine dok je mobilni meni otvoren, inače
+  // pozadina "puzi" ispod otvorenog menija i dodir djeluje neodazivno.
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
   const navLinks = [
     { name: "Usluge", href: "#usluge" },
     { name: "Portfolio", href: "#portfolio" },
@@ -53,19 +62,12 @@ export default function Navbar() {
     const id = href.replace("#", "");
 
     if (pathname === "/") {
-      if (id === "kontakt") {
-        window.scrollTo({
-          top: document.documentElement.scrollHeight,
-          behavior: "smooth",
-        });
-      } else {
-        const target = document.getElementById(id);
-        if (target) {
-          const navbarHeight = 80;
-          const targetPosition =
-            target.getBoundingClientRect().top + window.scrollY - navbarHeight;
-          window.scrollTo({ top: targetPosition, behavior: "smooth" });
-        }
+      const target = document.getElementById(id);
+      if (target) {
+        const navbarHeight = 80;
+        const targetPosition =
+          target.getBoundingClientRect().top + window.scrollY - navbarHeight;
+        window.scrollTo({ top: targetPosition, behavior: "smooth" });
       }
     } else {
       router.push(`/${href}`);
@@ -97,7 +99,7 @@ export default function Navbar() {
           onClick={handleLogoClick}
           whileHover={{ y: -3, scale: 1.05 }}
           transition={{ type: "spring", stiffness: 300, damping: 15 }}
-          className="group relative flex items-center gap-3 cursor-pointer"
+          className="group relative flex items-center gap-3 cursor-pointer touch-manipulation"
         >
           <img
             id="navbar-logo"
@@ -148,9 +150,12 @@ export default function Navbar() {
         </div>
 
         {/* HAMBURGER IKONA ZA MOBITELE */}
-        <button 
-          className="md:hidden text-foreground hover:text-gold transition-colors p-2"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        <button
+          type="button"
+          aria-label={isMobileMenuOpen ? "Zatvori izbornik" : "Otvori izbornik"}
+          aria-expanded={isMobileMenuOpen}
+          className="md:hidden text-foreground hover:text-gold transition-colors p-2 touch-manipulation"
+          onClick={() => setIsMobileMenuOpen((v) => !v)}
         >
           {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
@@ -172,7 +177,7 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className="text-foreground/80 hover:text-gold text-sm font-bold uppercase tracking-[0.2em] transition-colors"
+                  className="text-foreground/80 hover:text-gold text-sm font-bold uppercase tracking-[0.2em] transition-colors touch-manipulation"
                 >
                   {link.name}
                 </a>
@@ -180,7 +185,7 @@ export default function Navbar() {
               <a
                 href="#kontakt"
                 onClick={(e) => handleNavClick(e, "#kontakt")}
-                className="w-full text-center px-6 py-3 mt-4 rounded-full border-2 border-gold text-gold font-bold uppercase tracking-[0.15em] bg-gold/5 hover:bg-gold hover:text-background transition-all duration-300"
+                className="w-full text-center px-6 py-3 mt-4 rounded-full border-2 border-gold text-gold font-bold uppercase tracking-[0.15em] bg-gold/5 hover:bg-gold hover:text-background transition-all duration-300 touch-manipulation"
               >
                 Kontakt
               </a>

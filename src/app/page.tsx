@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import Navbar from "../components/Navbar";
 import Portfolio from "../components/Portfolio";
 import Showcase from "../components/Showcase";
+import Kontakt from "@/components/Kontakt";
 import Footer from "../components/Footer";
 
 // Dinamički uvozi bez SSR-a
@@ -107,7 +108,7 @@ export default function Home() {
       <div id="vizija" className="scroll-mt-20 relative z-10">
         <Blueprint />
       </div>
-
+      <Kontakt />
       {/* Sekcija Kontakt / Footer */}
       <div id="kontakt" className="scroll-mt-20 relative z-10">
         <Footer />
