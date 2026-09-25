@@ -7,7 +7,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 
 export default function Pitanja() {
   return (
-    <section id="pitanja" className="relative px-6 py-28 md:py-40 lg:px-8">
+    <section id="pitanja" className="relative overflow-x-clip px-6 py-28 md:py-40 lg:px-8">
       {/* glatko otvaranje/zatvaranje odgovora (moderni CSS; stariji preglednici samo otvore bez animacije) */}
       <style>{`
         .tm-faq { interpolate-size: allow-keywords; }
@@ -34,8 +34,8 @@ export default function Pitanja() {
               key={item.q}
               name="tm-pitanja"
               open={i === 0}
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "0px 0px -10% 0px" }}
               transition={{ duration: 0.7, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
               className="tm-faq group border-b border-white/10"

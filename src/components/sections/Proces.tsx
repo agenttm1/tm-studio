@@ -11,7 +11,7 @@ export default function Proces() {
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
 
   return (
-    <section id="proces" className="relative px-6 py-28 md:py-40 lg:px-8">
+    <section id="proces" className="relative overflow-x-clip px-6 py-28 md:py-40 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           title={[{ text: "Od prvog poziva do" }, { text: "gotove stranice.", gold: true }]}

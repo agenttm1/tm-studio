@@ -261,7 +261,7 @@ export default function Primjer() {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [0.2, 1]);
 
   return (
-    <section id="primjer" className="relative px-6 py-28 md:py-40 lg:px-8">
+    <section id="primjer" className="relative overflow-x-clip px-6 py-28 md:py-40 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-end">
           <RevealText

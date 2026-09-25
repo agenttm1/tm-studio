@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import SmoothScroll from "@/components/ui/SmoothScroll";
+import OverflowGuard from "@/components/ui/OverflowGuard";
 import CursorGlow from "@/components/ui/CursorGlow";
 import Hero from "@/components/sections/Hero";
 import Marquee from "@/components/sections/Marquee";
@@ -18,6 +19,7 @@ import Footer from "@/components/Footer";
 export default function Home() {
   return (
     <>
+      <OverflowGuard />
       <SmoothScroll />
       <CursorGlow />
       <Navbar />

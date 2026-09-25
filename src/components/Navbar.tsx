@@ -356,9 +356,13 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Traka se spušta ODMAH pri učitavanju, ne čeka preloader: preloader
+          čita poziciju #navbar-logo da zna kamo odletjeti, pa logo mora već
+          biti na svom konačnom mjestu. Skriva se samo sama slika logotipa
+          (opacity), dok je preloader ne preda. */}
       <motion.header
         initial={{ y: -110, opacity: 0 }}
-        animate={ready ? { y: 0, opacity: 1 } : { y: -110, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 200, damping: 26 }}
         className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
           scrolled ? "bg-black/70 backdrop-blur-xl" : "bg-transparent"
@@ -380,8 +384,8 @@ export default function Navbar() {
               id="navbar-logo"
               src="/TM_Logo.png"
               alt="TM Studio"
-              className={`h-10 w-10 rounded-full border border-[#D4AF37]/40 object-cover transition-all duration-500 group-hover:rotate-[-12deg] group-hover:border-[#D4AF37] group-hover:shadow-[0_0_20px_rgba(212,175,55,0.6)] ${
-                ready ? "opacity-100" : "opacity-0"
+              className={`h-10 w-10 rounded-full border border-[#D4AF37]/40 object-cover transition-all duration-500 group-hover:border-[#D4AF37] group-hover:shadow-[0_0_20px_rgba(212,175,55,0.6)] ${
+                ready ? "opacity-100 group-hover:rotate-[-12deg]" : "opacity-0"
               }`}
             />
             <span className="text-sm font-medium tracking-[0.2em] text-[#EDEDED]/90 transition-colors group-hover:text-[#D4AF37]">

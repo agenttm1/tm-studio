@@ -64,7 +64,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
 
 export default function Cijene() {
   return (
-    <section id="cijene" className="relative px-6 py-28 md:py-40 lg:px-8">
+    <section id="cijene" className="relative overflow-x-clip px-6 py-28 md:py-40 lg:px-8">
       <style>{`
         @keyframes tmBorderSpin { to { transform: rotate(360deg); } }
         .tm-border-spin { animation: tmBorderSpin 5s linear infinite; }

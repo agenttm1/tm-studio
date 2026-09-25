@@ -166,7 +166,7 @@ export const PACKAGES: Package[] = [
   {
     name: "Standard",
     forWho: "Za konobe i restorane",
-    price: "od 490 €",
+    price: "od 400 €",
     priceNote: "jednokratno",
     featured: true,
     features: [
@@ -180,7 +180,7 @@ export const PACKAGES: Package[] = [
   {
     name: "Premium",
     forWho: "Za one koji žele sve",
-    price: "od 700 €",
+    price: "od 600 €",
     priceNote: "jednokratno",
     features: [
       "Sve iz Standarda",

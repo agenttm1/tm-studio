@@ -7,7 +7,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 
 export default function Usluge() {
   return (
-    <section id="usluge" className="relative px-6 py-28 md:py-40 lg:px-8">
+    <section id="usluge" className="relative overflow-x-clip px-6 py-28 md:py-40 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-end">
           <SectionHeading title={[{ text: "Sve što vašem poslu treba" }, { text: "na internetu.", gold: true }]} />
