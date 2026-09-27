@@ -5,7 +5,7 @@ import CursorGlow from "@/components/ui/CursorGlow";
 import Hero from "@/components/sections/Hero";
 import Marquee from "@/components/sections/Marquee";
 import Usluge from "@/components/sections/Usluge";
-import Primjer from "@/components/sections/Primjer";
+import Radovi from "@/components/sections/Radovi";
 import Proces from "@/components/sections/Proces";
 import Cijene from "@/components/sections/Cijene";
 import Pitanja from "@/components/sections/Pitanja";
@@ -27,7 +27,7 @@ export default function Home() {
         <Hero />
         <Marquee />
         <Usluge />
-        <Primjer />
+        <Radovi />
         <Proces />
         <Cijene />
         <Pitanja />

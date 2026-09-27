@@ -17,6 +17,8 @@ const variants = {
 interface ShineButtonProps {
   children: ReactNode;
   href?: string;
+  /** npr. "_blank" za otvaranje u novoj kartici (rel se tada postavlja sam) */
+  target?: string;
   onClick?: (e: React.MouseEvent<HTMLElement>) => void;
   variant?: keyof typeof variants;
   type?: "button" | "submit";
@@ -28,6 +30,7 @@ interface ShineButtonProps {
 export default function ShineButton({
   children,
   href,
+  target,
   onClick,
   variant = "gold",
   type = "button",
@@ -52,7 +55,13 @@ export default function ShineButton({
   return (
     <Magnetic className={wrapperClassName}>
       {href ? (
-        <a href={href} onClick={onClick} className={cls}>
+        <a
+          href={href}
+          target={target}
+          rel={target === "_blank" ? "noopener" : undefined}
+          onClick={onClick}
+          className={cls}
+        >
           {inner}
         </a>
       ) : (
