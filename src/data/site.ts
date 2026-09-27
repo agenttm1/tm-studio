@@ -35,9 +35,9 @@ export const NAV_TABS: NavTab[] = [
 
 export const CONTACT = {
   email: "tmstudios31@gmail.com",
-  phoneDisplay: "+385 99 123 4567", // TODO: pravi broj
-  phoneHref: "+385991234567", // TODO: isti broj, bez razmaka
-  whatsapp: "385991234567", // TODO: broj bez + i razmaka
+  phoneDisplay: "+385 91 947 6830", // TODO: pravi broj
+  phoneHref: "+385919476830", // TODO: isti broj, bez razmaka
+  whatsapp: "385919476830", // TODO: broj bez + i razmaka
   location: "Umag, Istra",
   responseTime: "Javljamo se u roku od 24 sata.", // TODO: možete li to stvarno držati?
 };
