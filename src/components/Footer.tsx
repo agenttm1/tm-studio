@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowUp, ArrowRight, Mail, MapPin } from "lucide-react";
 import Link from "next/link";
+import { DEMOS, demoHref } from "@/data/demos";
 
 const InstagramIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
   <svg
@@ -116,15 +117,39 @@ export default function Footer() {
             </form>
           </motion.div>
 
-          <div className="hidden lg:block lg:col-span-2" />
+          <div className="hidden lg:block lg:col-span-1" />
 
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="md:col-span-6 lg:col-span-5 flex flex-col sm:flex-row gap-10 justify-end"
+            className="md:col-span-6 lg:col-span-6 flex flex-col sm:flex-row sm:flex-wrap gap-10 justify-end"
           >
+            <div>
+              <h4 className="text-gold tracking-[0.2em] text-xs font-bold uppercase mb-4">
+                Demo primjeri
+              </h4>
+              {/* izmišljeni poslovi, pokazuju što radimo (src/data/demos.ts) */}
+              <ul className="space-y-3">
+                {DEMOS.map((demo) => (
+                  <li key={demo.slug}>
+                    <a
+                      href={demoHref(demo.slug)}
+                      className="inline-flex items-center gap-2 text-foreground/70 hover:text-gold transition-colors text-sm font-light"
+                    >
+                      <span
+                        aria-hidden
+                        className="w-1.5 h-1.5 rounded-full"
+                        style={{ backgroundColor: demo.accent }}
+                      />
+                      <span>{demo.name}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             <div>
               <h4 className="text-gold tracking-[0.2em] text-xs font-bold uppercase mb-4">
                 Mreže

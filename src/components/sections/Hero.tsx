@@ -91,12 +91,12 @@ export default function Hero() {
             {HERO.primaryCta}
           </ShineButton>
           <ShineButton
-            href="#primjer"
+            href="#radovi"
             variant="outline"
             wrapperClassName="w-full sm:w-auto"
             onClick={(e) => {
               e.preventDefault();
-              scrollToId("primjer");
+              scrollToId("radovi");
             }}
           >
             {HERO.secondaryCta}

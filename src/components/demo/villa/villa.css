@@ -1,0 +1,214 @@
+@import "tailwindcss" source(none);
+@import "../demo-shell.css";
+@import "lenis/dist/lenis.css";
+
+/* Tailwind čita samo datoteke ovog demoa i zajedničke demo komponente,
+   pa se boje i fontovi ne miješaju s glavnom TM stranicom ni s drugim demoima. */
+@source "./";
+@source "../*.tsx";
+@source "../../../app/demo/villa-olea";
+
+/*
+ * Paleta Ville Olee — maslina, kamen i sunce.
+ * Za novog klijenta promijenite samo heks vrijednosti ovdje.
+ * Klase: bg-olive-deep, text-limestone, border-olive-leaf, text-gold …
+ */
+@theme {
+  --color-olive-deep: #141a10; /* osnovna pozadina */
+  --color-olive-shade: #1e2617; /* kartice, sekcije */
+  --color-olive-leaf: #3f4a28; /* rubovi, sekundarne plohe */
+  --color-olive-light: #8fa163; /* ikone, oznake, hover */
+  --color-gold: #c9a227; /* CTA, brojevi, naglasci */
+  --color-gold-soft: #f0e4b8;
+  --color-limestone: #e8e2d4; /* glavni tekst */
+  --color-sand: #b8ae97; /* sekundarni tekst */
+  --color-terra: #a8552f; /* rijetko: "Slobodno" i jedna cijena */
+
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    background: #141a10;
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: calc(5rem + var(--demo-bar-h));
+  }
+
+  /* Ništa ne smije biti šire od ekrana — `clip` ne stvara scroll kontejner,
+     pa sticky elementi i dalje rade. */
+  html,
+  body {
+    overflow-x: clip;
+    max-width: 100%;
+  }
+
+  body {
+    background: #141a10;
+    color: #e8e2d4;
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "kern";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: #c9a227;
+    color: #141a10;
+  }
+
+  :focus-visible {
+    outline: 2px solid #c9a227;
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font: inherit;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.85) sepia(0.4) saturate(2) hue-rotate(20deg);
+    cursor: pointer;
+  }
+}
+
+/* Fina zrnatost preko cijele stranice — daje "papirnati" osjećaj bez slika */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Odsjaj koji prijeđe preko gumba na hover */
+.sheen {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.sheen::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 250, 230, 0.55) 48%,
+    transparent 66%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.9s var(--ease-out-expo);
+}
+.sheen:hover::before,
+.sheen:focus-visible::before {
+  transform: translateX(120%);
+}
+
+/* Lišće masline koje se njiše (hero). Samo transform — jeftino za mobitel. */
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(-1.6deg);
+  }
+  50% {
+    transform: rotate(2.2deg);
+  }
+}
+@keyframes leaf-flutter {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(7deg);
+  }
+}
+.sway {
+  transform-box: fill-box;
+  animation: sway 9s ease-in-out infinite;
+}
+.leaf-flutter {
+  transform-box: fill-box;
+  transform-origin: 0% 50%;
+  animation: leaf-flutter 5s ease-in-out infinite;
+}
+
+/* Svjetlo na površini bazena */
+@keyframes caustic {
+  0% {
+    transform: translate3d(-4%, 0, 0) scaleY(1);
+  }
+  50% {
+    transform: translate3d(4%, -1.5%, 0) scaleY(1.08);
+  }
+  100% {
+    transform: translate3d(-4%, 0, 0) scaleY(1);
+  }
+}
+.caustic {
+  animation: caustic 14s ease-in-out infinite;
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(3%, -2%, 0);
+    opacity: 0.85;
+  }
+}
+.drift {
+  animation: drift 16s ease-in-out infinite;
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(220%);
+  }
+}
+.scroll-cue {
+  animation: scroll-cue 2.2s var(--ease-out-expo) infinite;
+}
+
+/* Skrivena traka za vodoravno klizanje na mobitelu */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Poštujemo korisnike koji ne žele pokret: stranica ostaje statična i lijepa */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Sekcije primaju fokus pri navigaciji, ali bez okvira */
+[tabindex="-1"]:focus {
+  outline: none;
+}
