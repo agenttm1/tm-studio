@@ -64,4 +64,4 @@ nasljeđuje CSS, fontove ni Preloader glavne stranice. Glavna stranica je u grup
 
 Kontakt podaci u demoima moraju biti izmišljeni (`.example` domene, brojevi s `000`).
 
-**Build:** `/api/contact` traži `RESEND_API_KEY` već pri buildu; lokalno je dovoljna bilo koja vrijednost.
+**Kontakt forma:** `/api/contact` čita `RESEND_API_KEY` tek pri slanju, pa build prolazi i bez njega. Bez ključa forma javlja grešku.
