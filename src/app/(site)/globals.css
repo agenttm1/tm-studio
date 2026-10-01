@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Demo stranice imaju vlastiti CSS (src/components/demo/<demo>/<demo>.css) —
+   TM stranica ih ne čita, da ne nosi tuđe klase. */
+@source not "../../components/demo";
+
 :root {
   /* Još dublja crna, gotovo Vantablack */
   --color-background: #020202;

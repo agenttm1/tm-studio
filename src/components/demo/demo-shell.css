@@ -1,0 +1,8 @@
+/*
+ * Zajedničko za sve demoe. Svaki demo CSS ovo uvozi odmah ispod Tailwinda.
+ * --demo-bar-h = visina trake "Demo primjer" (DemoBar) + usjek na iPhoneu.
+ * Fiksirana zaglavlja demoa koriste je kao top, a skrolanje do sekcija kao pomak.
+ */
+:root {
+  --demo-bar-h: calc(2rem + env(safe-area-inset-top, 0px));
+}

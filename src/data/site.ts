@@ -7,17 +7,13 @@
 import {
   Home,
   LayoutGrid,
-  Smartphone,
+  AppWindow,
   Tag,
   MessageCircle,
   Sparkles,
   RefreshCw,
   Languages,
   Wrench,
-  BookOpen,
-  Clock,
-  Phone,
-  MapPin,
   type LucideIcon,
 } from "lucide-react";
 
@@ -28,7 +24,7 @@ export type NavTab = { id: string; label: string; icon: LucideIcon };
 export const NAV_TABS: NavTab[] = [
   { id: "pocetna", label: "Početna", icon: Home },
   { id: "usluge", label: "Usluge", icon: LayoutGrid },
-  { id: "primjer", label: "Primjer", icon: Smartphone },
+  { id: "radovi", label: "Radovi", icon: AppWindow },
   { id: "cijene", label: "Cijene", icon: Tag },
   { id: "kontakt", label: "Kontakt", icon: MessageCircle },
 ];
@@ -49,7 +45,7 @@ export const HERO = {
   subtitle:
     "Izrađujemo web stranice za konobe, restorane, apartmane i male obrte. Jelovnik, radno vrijeme, lokacija i poziv na jedan dodir, sve na jednom mjestu.",
   primaryCta: "Zatražite besplatnu ponudu", // TODO: je li ponuda besplatna?
-  secondaryCta: "Pogledajte primjer",
+  secondaryCta: "Pogledajte radove",
   notes: [
     "Ne trebate ništa znati o računalima",
     "Izgleda odlično na mobitelu",
@@ -92,33 +88,7 @@ export const SERVICES: Service[] = [
   },
 ];
 
-export const DEMO_FEATURES: { icon: LucideIcon; title: string; text: string }[] = [
-  {
-    icon: BookOpen,
-    title: "Jelovnik bez ponovnog tiskanja",
-    text: "Nova jela i cijene su na stranici isti dan.",
-  },
-  {
-    icon: Clock,
-    title: "Radno vrijeme koje se samo ažurira",
-    text: "Gost odmah vidi jeste li sada otvoreni.",
-  },
-  {
-    icon: Phone,
-    title: "Poziv i WhatsApp na jedan dodir",
-    text: "Rezervacija bez traženja broja.",
-  },
-  {
-    icon: Languages,
-    title: "Jezik po izboru gosta",
-    text: "Hrvatski, engleski, njemački ili talijanski.",
-  },
-  {
-    icon: MapPin,
-    title: "Put do vas na karti",
-    text: "Jedan dodir otvara navigaciju.",
-  },
-];
+// Demo stranice (sekcija Radovi) su u src/data/demos.ts.
 
 export const STEPS: { title: string; text: string; note?: string }[] = [
   {

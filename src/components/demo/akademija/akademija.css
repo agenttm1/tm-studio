@@ -1,0 +1,58 @@
+@import "tailwindcss" source(none);
+@import "../demo-shell.css";
+
+/* Tailwind čita samo datoteke ovog demoa i zajedničke demo komponente,
+   pa se boje i fontovi ne miješaju s glavnom TM stranicom ni s drugim demoima. */
+@source "./";
+@source "../*.tsx";
+@source "../../../app/demo/akademija-meridijan";
+
+@theme {
+  --color-pitch: #050706;
+  --color-surface: #111614;
+  --color-chalk: #f4f6f3;
+  --color-turf: #2fa44f;
+  --color-muted: #7b8c82;
+
+  --font-display: var(--font-barlow), sans-serif;
+  --font-body: var(--font-inter), sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* fiksni navbar je ~80px visok — bez ovoga anchor linkovi odrežu naslov */
+section[id] {
+  scroll-margin-top: calc(6rem + var(--demo-bar-h));
+}
+
+body {
+  background-color: var(--color-pitch);
+  color: var(--color-chalk);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+
+::selection {
+  background-color: var(--color-turf);
+  color: var(--color-pitch);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

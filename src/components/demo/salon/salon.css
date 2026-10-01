@@ -1,0 +1,101 @@
+@import "tailwindcss" source(none);
+@import "../demo-shell.css";
+
+/* Tailwind čita samo datoteke ovog demoa i zajedničke demo komponente,
+   pa se boje i fontovi ne miješaju s glavnom TM stranicom ni s drugim demoima. */
+@source "./";
+@source "../*.tsx";
+@source "../../../app/demo/studio-kalina";
+
+/*
+ * Paleta "porculan, petrolej i sapunica".
+ * Promjena boja: mijenjaj samo ovdje — klase (bg-petrol, text-dim…) se generiraju iz @theme.
+ */
+@theme {
+  --color-porculan: #f4f6f5; /* osnovna pozadina */
+  --color-sapunica: #e9eeec; /* kartice, izmjenične sekcije */
+  --color-celik: #cbd5d2; /* rubovi, razdjelnici */
+  --color-petrol: #1f5d5b; /* glavni akcent: akcija, odabrano, cijena */
+  --color-petrol-light: #2e8481; /* hover (rubovi, ikone) */
+  --color-rumen: #ebc9c2; /* samo "najtraženije" i meke podloge */
+  --color-tinta: #16211f; /* naslovi i tekst */
+  --color-dim: #5c6b68; /* sekundarni tekst — 5.1:1 na porculanu */
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@theme inline {
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    /* sigurnosna mreža: ništa ne smije biti šire od ekrana */
+    overflow-x: clip;
+    scroll-padding-top: calc(5rem + var(--demo-bar-h));
+  }
+
+  body {
+    overflow-x: clip;
+    background: var(--color-porculan);
+    color: var(--color-tinta);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--color-petrol);
+    color: #fff;
+  }
+
+  /* Vidljiv fokus: tamni obrub, ne svijetla sjena */
+  :focus-visible {
+    outline: 2px solid var(--color-tinta);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  [tabindex="-1"]:focus {
+    outline: none;
+  }
+
+  button,
+  [role="button"],
+  label {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Poštuj prefers-reduced-motion i za CSS prijelaze */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
