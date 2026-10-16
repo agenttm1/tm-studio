@@ -32,7 +32,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="hr" data-scroll-behavior="smooth" className="h-full antialiased">
+    // suppressHydrationWarning: skripta u Hero.tsx postavlja data-hero na <html> prije Reacta
+    <html lang="hr" data-scroll-behavior="smooth" className="h-full antialiased" suppressHydrationWarning>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

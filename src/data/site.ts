@@ -38,10 +38,27 @@ export const CONTACT = {
   responseTime: "Javljamo se u roku od 24 sata.", // TODO: možete li to stvarno držati?
 };
 
+// Pozadine heroja (crteži su u src/components/sections/HeroScenes.tsx)
+export type HeroScene = "petlja" | "more" | "vinograd" | "gradic" | "maslina";
+
+export type HeroQuote = {
+  text: string; // prvi dio, bijelo
+  gold: string; // drugi dio, zlatni kurziv
+  scene: HeroScene; // pozadina koja ide uz citat
+};
+
 export const HERO = {
+  // H1 za Google: uvijek isti, ne mijenja se s citatom
   kicker: "Izrada web stranica u Istri",
-  titleTop: "Gosti vas traže na mobitelu.",
-  titleGold: "Neka pronađu nešto lijepo.",
+  // Pri svakom ulasku na stranicu prikaže se jedan, nikad isti kao prošli put.
+  // Novi citat = novi red ovdje. Ovo su naše poruke, ne izjave klijenata.
+  quotes: [
+    { text: "Gosti vas traže na mobitelu.", gold: "Neka pronađu nešto lijepo.", scene: "petlja" },
+    { text: "Smještaj se bira navečer, s kauča.", gold: "Budite prvo što gost vidi.", scene: "more" },
+    { text: "Gost je probao vaše vino.", gold: "Neka ga naruči i od kuće.", scene: "vinograd" },
+    { text: "Gost ne zna put do vas.", gold: "Neka ga stranica dovede do vrata.", scene: "gradic" },
+    { text: "Kad zatvorite vrata,", gold: "stranica i dalje prima goste.", scene: "maslina" },
+  ] satisfies HeroQuote[],
   subtitle:
     "Izrađujemo web stranice za konobe, restorane, apartmane i male obrte. Jelovnik, radno vrijeme, lokacija i poziv na jedan dodir, sve na jednom mjestu.",
   primaryCta: "Zatražite besplatnu ponudu", // TODO: je li ponuda besplatna?

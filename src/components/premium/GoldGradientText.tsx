@@ -36,6 +36,10 @@ export default function GoldGradientText({
         backgroundClip: "text",
         WebkitTextFillColor: "transparent",
         color: "transparent", // fallback if a browser ignores the clip entirely
+        // kad se tekst prelomi u više redova, svaki red dobije svoj gradijent i
+        // svoj desni razmak, pa kurziv ne bude odrezan na kraju reda
+        WebkitBoxDecorationBreak: "clone",
+        boxDecorationBreak: "clone",
       }}
     >
       {children}
