@@ -1,21 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Preloader from "@/components/Preloader";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// Bez preloadera i bez web fontova: stranica se prikaže odmah, a tekst je u
+// sistemskom fontu (isto kao i do sada — Geist se učitavao, ali nije se koristio).
 
 export const metadata: Metadata = {
-  title: "TM Studio | Digital Excellence",
-  description: "Ekskluzivna web rješenja i high-end dizajn.",
+  metadataBase: new URL("https://tmstudio.com.hr"),
+  title: "TM Studio — izrada web stranica u Istri",
+  description:
+    "Web stranice za konobe, restorane, apartmane i male obrte. Jelovnik, radno vrijeme, lokacija i poziv na jedan dodir, sve na jednom mjestu.",
 };
 
 export default function RootLayout({
@@ -24,15 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="hr"
-      data-scroll-behavior="smooth"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
-        <Preloader />
-        {children}
-      </body>
+    <html lang="hr" data-scroll-behavior="smooth" className="h-full antialiased">
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }

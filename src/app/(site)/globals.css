@@ -25,6 +25,10 @@
 }
 
 html {
+  /* Klik na #sekciju klizi sam, bez JavaScripta. scroll-padding = visina zaglavlja,
+     da naslov sekcije ne završi ispod njega. */
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
   /* Dodajemo jako blagu teksturu na cijelu stranicu za "skupi" papir/metal osjećaj */
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
 }
@@ -41,4 +45,18 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* Tko u sustavu traži manje pokreta, ne dobiva ni klizanje ni prijelaze. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

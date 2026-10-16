@@ -1,19 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { AlertCircle, Mail, MessageCircle, Phone, Send } from "lucide-react";
 import { BUSINESS_TYPES, CONTACT } from "@/data/site";
-import { PACKAGE_EVENT } from "@/components/sections/Cijene";
+import { PACKAGE_EVENT } from "@/lib/packageEvent";
 import RevealText from "@/components/ui/RevealText";
 import ShineButton from "@/components/ui/ShineButton";
 
 type Status = "idle" | "loading" | "success" | "error";
 
 const inputClass =
-  "w-full rounded-xl border border-white/10 bg-black/50 px-4 py-3.5 text-[#EDEDED] placeholder:text-[#EDEDED]/30 outline-none transition-all duration-300 hover:border-white/20 focus:border-[#D4AF37]/70 focus:bg-black/70 focus:shadow-[0_0_0_4px_rgba(212,175,55,0.12),0_0_30px_-8px_rgba(212,175,55,0.5)]";
-
-const ease = [0.22, 1, 0.36, 1] as const;
+  "w-full rounded-xl border border-white/10 bg-black/50 px-4 py-3.5 text-[#EDEDED] placeholder:text-[#EDEDED]/30 outline-none transition-colors duration-200 hover:border-white/20 focus:border-[#D4AF37]/70 focus:bg-black/70 focus:shadow-[0_0_0_4px_rgba(212,175,55,0.12)]";
 
 export default function Kontakt() {
   const [status, setStatus] = useState<Status>("idle");
@@ -84,33 +81,23 @@ export default function Kontakt() {
             parts={[{ text: "Recite nam nešto o" }, { text: "svom poslu.", gold: true }]}
             className="max-w-xl text-4xl font-black leading-[1.02] tracking-tighter text-[#EDEDED] md:text-6xl"
           />
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3, ease }}
+          <p
             className="mt-6 max-w-md text-lg font-light leading-relaxed text-[#EDEDED]/65"
           >
             Nekoliko rečenica je dovoljno. Javimo se s idejama i okvirnom cijenom. {CONTACT.responseTime}
-          </motion.p>
+          </p>
 
           <ul className="mt-12 space-y-3">
-            {directContacts.map(({ icon: Icon, label, value, href }, i) => (
-              <motion.li
-                key={label}
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: 0.2 + i * 0.1, ease }}
-              >
+            {directContacts.map(({ icon: Icon, label, value, href }) => (
+              <li key={label}>
                 <a
                   href={href}
                   target={href.startsWith("http") ? "_blank" : undefined}
                   rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="group flex items-center gap-4 rounded-2xl border border-white/10 p-4 transition-all duration-500 hover:translate-x-2 hover:border-[#D4AF37]/50 hover:bg-[#D4AF37]/5 hover:shadow-[0_0_40px_-15px_rgba(212,175,55,0.6)] focus-visible:outline-2 focus-visible:outline-[#D4AF37]"
+                  className="group flex items-center gap-4 rounded-2xl border border-white/10 p-4 transition-colors duration-200 hover:border-[#D4AF37]/50 hover:bg-[#D4AF37]/5 focus-visible:outline-2 focus-visible:outline-[#D4AF37]"
                 >
-                  <span className="grid h-11 w-11 place-items-center rounded-full bg-[#D4AF37]/10 transition-all duration-500 group-hover:rotate-[-12deg] group-hover:bg-[#D4AF37]">
-                    <Icon aria-hidden className="h-5 w-5 text-[#D4AF37] transition-colors duration-500 group-hover:text-[#120d02]" />
+                  <span className="grid h-11 w-11 place-items-center rounded-full bg-[#D4AF37]/10 transition-colors duration-200 group-hover:bg-[#D4AF37]">
+                    <Icon aria-hidden className="h-5 w-5 text-[#D4AF37] transition-colors duration-200 group-hover:text-[#120d02]" />
                   </span>
                   <span>
                     <span className="block text-sm text-[#EDEDED]/50">{label}</span>
@@ -119,38 +106,20 @@ export default function Kontakt() {
                     </span>
                   </span>
                 </a>
-              </motion.li>
+              </li>
             ))}
           </ul>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 60, rotateX: 12 }}
-          whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-          viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-          transition={{ duration: 1, ease }}
-          style={{ transformPerspective: 1200 }}
-          className="relative"
-        >
-          <AnimatePresence mode="wait">
+        <div className="relative">
             {status === "success" ? (
-              <motion.div
-                key="done"
+              <div
                 role="status"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
                 className="flex min-h-[520px] flex-col items-center justify-center rounded-[2rem] border border-[#D4AF37]/30 bg-[linear-gradient(180deg,#1a1409,#070605)] p-10 text-center"
               >
                 <svg viewBox="0 0 52 52" className="h-20 w-20" aria-hidden>
-                  <motion.circle
-                    cx="26" cy="26" r="24" fill="none" stroke="#D4AF37" strokeWidth="2"
-                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.7, ease }}
-                  />
-                  <motion.path
-                    d="M15 27 l7 7 l15 -16" fill="none" stroke="#D4AF37" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
-                    initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.5, delay: 0.6, ease }}
-                  />
+                  <circle cx="26" cy="26" r="24" fill="none" stroke="#D4AF37" strokeWidth="2" />
+                  <path d="M15 27 l7 7 l15 -16" fill="none" stroke="#D4AF37" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 <p className="mt-8 text-3xl font-black tracking-tight text-[#EDEDED]">Upit je poslan.</p>
                 <p className="mt-3 max-w-sm text-[#EDEDED]/60">Hvala! Javimo se na vaš email s idejama i okvirnom cijenom.</p>
@@ -161,12 +130,10 @@ export default function Kontakt() {
                 >
                   Pošaljite još jedan upit
                 </button>
-              </motion.div>
+              </div>
             ) : (
-              <motion.form
-                key="form"
+              <form
                 onSubmit={handleSubmit}
-                exit={{ opacity: 0, scale: 0.97 }}
                 className="relative flex flex-col gap-6 rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,#15110a,#070605)] p-6 shadow-[0_40px_100px_-40px_rgba(212,175,55,0.35)] md:p-10"
               >
                 {/* honeypot: ljudi ga ne vide, botovi ga popune */}
@@ -202,21 +169,13 @@ export default function Kontakt() {
                       return (
                         <label
                           key={type}
-                          className={`relative cursor-pointer rounded-full border px-4 py-2 text-sm transition-colors duration-300 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[#D4AF37]/60 ${
+                          className={`relative cursor-pointer rounded-full border px-4 py-2 text-sm transition-colors duration-200 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[#D4AF37]/60 ${
                             selected
-                              ? "border-transparent text-[#120d02]"
+                              ? "border-transparent bg-[#D4AF37] text-[#120d02]"
                               : "border-white/15 text-[#EDEDED]/70 hover:border-[#D4AF37]/50 hover:text-[#EDEDED]"
                           }`}
                         >
-                          {/* zlatna pozadina "otkliže" do odabrane opcije */}
-                          {selected && (
-                            <motion.span
-                              layoutId="tm-business-pill"
-                              transition={{ type: "spring", stiffness: 420, damping: 32 }}
-                              className="absolute inset-0 rounded-full bg-[#D4AF37] shadow-[0_0_24px_-4px_rgba(212,175,55,0.8)]"
-                            />
-                          )}
-                          <input
+                                                    <input
                             type="radio"
                             name="business"
                             value={type}
@@ -250,38 +209,30 @@ export default function Kontakt() {
                 <ShineButton type="submit" disabled={status === "loading"} wrapperClassName="w-full">
                   {status === "loading" ? (
                     <>
-                      <motion.span
-                        className="h-4 w-4 rounded-full border-2 border-[#120d02]/30 border-t-[#120d02]"
-                        animate={{ rotate: 360 }}
-                        transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
-                      />
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-[#120d02]/30 border-t-[#120d02]" />
                       Šaljemo upit…
                     </>
                   ) : (
                     <>
                       Pošaljite upit
-                      <Send aria-hidden className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-1" />
+                      <Send aria-hidden className="h-4 w-4" />
                     </>
                   )}
                 </ShineButton>
 
                 <div aria-live="polite" className="min-h-6">
                   {status === "error" && (
-                    <motion.p
-                      initial={{ opacity: 0, x: -8 }}
-                      animate={{ opacity: 1, x: [0, -6, 6, -4, 4, 0] }}
-                      transition={{ duration: 0.45 }}
+                    <p
                       className="flex items-center gap-2 text-red-400"
                     >
                       <AlertCircle className="h-5 w-5 shrink-0" />
                       {errorMsg}
-                    </motion.p>
+                    </p>
                   )}
                 </div>
-              </motion.form>
+              </form>
             )}
-          </AnimatePresence>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

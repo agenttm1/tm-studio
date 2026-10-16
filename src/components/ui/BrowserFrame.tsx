@@ -1,28 +1,8 @@
-"use client";
-
 import type { ReactNode } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Lock, RotateCw } from "lucide-react";
 
-/** Adresa u traci: stara izblijedi prema gore, nova dođe odozdo. */
 function AddressText({ url }: { url: string }) {
-  const reduce = useReducedMotion();
-  return (
-    <span className="relative block min-w-0 overflow-hidden">
-      <AnimatePresence mode="popLayout" initial={false}>
-        <motion.span
-          key={url}
-          initial={reduce ? { opacity: 0 } : { opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={reduce ? { opacity: 0 } : { opacity: 0, y: -10 }}
-          transition={{ duration: reduce ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="block truncate"
-        >
-          {url}
-        </motion.span>
-      </AnimatePresence>
-    </span>
-  );
+  return <span className="block min-w-0 truncate">{url}</span>;
 }
 
 /**
