@@ -2,7 +2,9 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
-  title: "Uvjeti Korištenja | TM Studio",
+  title: "Uvjeti korištenja", // " | TM Studio" dodaje layout
+  description: "Uvjeti korištenja web stranice TM Studija.",
+  alternates: { canonical: "/uvjeti" },
 };
 
 export default function UvjetiPage() {

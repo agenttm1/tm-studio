@@ -132,14 +132,14 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col items-center justify-between gap-4 pt-8 md:flex-row">
-          <span className="text-sm font-bold uppercase tracking-[0.2em] text-[#EDEDED]/40">TM Studio</span>
+          <span className="text-sm font-bold uppercase tracking-[0.2em] text-[#EDEDED]/60">TM Studio</span>
 
-          <p className="text-center text-xs font-light text-[#EDEDED]/40">
+          <p className="text-center text-xs font-light text-[#EDEDED]/60">
             &copy; {new Date().getFullYear()} TM Studio. Sva prava pridržana.
           </p>
 
           <div className="flex items-center gap-6">
-            <div className="flex items-center gap-4 text-xs font-light text-[#EDEDED]/40">
+            <div className="flex items-center gap-4 text-xs font-light text-[#EDEDED]/60">
               <Link href="/privatnost" className="transition-colors hover:text-[#D4AF37]">
                 Privatnost
               </Link>

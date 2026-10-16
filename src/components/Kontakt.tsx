@@ -111,7 +111,7 @@ export default function Kontakt() {
           </ul>
         </div>
 
-        <div className="relative">
+        <div className="tm-reveal relative">
             {status === "success" ? (
               <div
                 role="status"

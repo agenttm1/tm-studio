@@ -8,7 +8,7 @@ interface SectionHeadingProps {
 
 export default function SectionHeading({ title, subtitle, className = "" }: SectionHeadingProps) {
   return (
-    <div className={className}>
+    <div className={`tm-reveal ${className}`}>
       <RevealText
         parts={title}
         className="max-w-3xl text-4xl font-black leading-[1.02] tracking-tighter text-[#EDEDED] md:text-6xl"

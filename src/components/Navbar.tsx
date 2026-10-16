@@ -94,6 +94,12 @@ export default function Navbar() {
             Zatražite ponudu
           </a>
         </div>
+
+        {/* zlatna crta napretka kroz stranicu (CSS scroll timeline, globals.css) */}
+        <div
+          aria-hidden
+          className="tm-scroll-progress absolute inset-x-0 bottom-0 h-px bg-linear-to-r from-[#AA771C] via-[#D4AF37] to-[#F3E7C4]"
+        />
       </header>
 
       {/* mobitel: izbornik dolje, pod palcem */}

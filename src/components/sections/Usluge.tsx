@@ -18,14 +18,21 @@ export default function Usluge() {
             return (
               <li
                 key={service.title}
-                className="grid gap-4 border-b border-white/10 py-8 md:grid-cols-12 md:gap-8 md:py-10"
+                className="tm-reveal group relative grid gap-4 overflow-hidden border-b border-white/10 py-8 md:grid-cols-12 md:gap-8 md:py-10"
               >
-                <div className="flex items-start gap-5 md:col-span-5">
+                {/* zlatni val preko reda na hover (samo CSS) */}
+                <span
+                  aria-hidden
+                  className="absolute inset-0 origin-left scale-x-0 bg-linear-to-r from-[#D4AF37]/12 via-[#D4AF37]/4 to-transparent transition-transform duration-500 ease-out group-hover:scale-x-100"
+                />
+                <div className="relative flex items-start gap-5 md:col-span-5">
                   <Icon aria-hidden className="mt-1 h-7 w-7 shrink-0 text-[#D4AF37]" />
-                  <h3 className="text-2xl font-bold tracking-tight text-[#EDEDED] md:text-3xl">{service.title}</h3>
+                  <h3 className="text-2xl font-bold tracking-tight text-[#EDEDED] transition-colors duration-300 group-hover:text-[#D4AF37] md:text-4xl">
+                    {service.title}
+                  </h3>
                 </div>
-                <p className="text-lg font-light leading-relaxed text-[#EDEDED]/65 md:col-span-5">{service.text}</p>
-                <p className="text-sm text-[#D4AF37]/75 md:col-span-2 md:text-right">{service.forWho}</p>
+                <p className="relative text-lg font-light leading-relaxed text-[#EDEDED]/65 md:col-span-5">{service.text}</p>
+                <p className="relative text-sm text-[#D4AF37]/75 md:col-span-2 md:text-right">{service.forWho}</p>
               </li>
             );
           })}

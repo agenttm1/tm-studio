@@ -60,3 +60,88 @@ body {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ANIMACIJE NA SKROLANJE — samo CSS (animation-timeline), bez JavaScripta.
+   Preglednici koji to ne podržavaju (npr. Firefox) prikažu završno stanje,
+   a tko traži manje pokreta ne dobiva ih uopće.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* zlatna crta napretka ispod zaglavlja: vidi se samo gdje radi */
+.tm-scroll-progress {
+  display: none;
+}
+
+@keyframes tm-grow-x {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes tm-grow-y {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+@keyframes tm-reveal {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes tm-step-on {
+  from {
+    border-color: rgba(255, 255, 255, 0.15);
+    color: rgba(237, 237, 237, 0.35);
+    background-color: #050505;
+    box-shadow: none;
+  }
+  to {
+    border-color: rgba(212, 175, 55, 0.6);
+    color: #d4af37;
+    background-color: #1c160a;
+    box-shadow: 0 0 24px -4px rgba(212, 175, 55, 0.6);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .tm-scroll-progress {
+      display: block;
+      transform-origin: left;
+      animation: tm-grow-x linear both;
+      animation-timeline: scroll(root);
+    }
+
+    /* blagi ulazak odozdo dok element ulazi u ekran */
+    .tm-reveal {
+      animation: tm-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+
+    /* Proces: crta se puni dok skrolaš kroz korake, a krugovi zasvijetle kad
+       ih crta dosegne. --i = redni broj koraka (0–3). */
+    .tm-steps {
+      view-timeline: --tm-steps block;
+    }
+    /* animation-timeline uvijek ide POSLIJE "animation", jer ga ono resetira */
+    .tm-steps-fill-y {
+      transform-origin: top;
+      animation: tm-grow-y linear both;
+      animation-timeline: --tm-steps;
+      animation-range: cover 10% cover 72%;
+    }
+    .tm-steps-fill-x {
+      transform-origin: left;
+      animation: tm-grow-x linear both;
+      animation-timeline: --tm-steps;
+      animation-range: cover 10% cover 55%;
+    }
+    .tm-step-dot {
+      animation: tm-step-on linear both;
+      animation-timeline: --tm-steps;
+      animation-range: cover calc(10% + 15.5% * var(--i)) cover calc(13% + 15.5% * var(--i));
+    }
+    @media (min-width: 768px) {
+      .tm-step-dot {
+        animation-range: cover calc(10% + 11.25% * var(--i)) cover calc(12% + 11.25% * var(--i));
+      }
+    }
+  }
+}

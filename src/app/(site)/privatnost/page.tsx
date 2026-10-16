@@ -2,7 +2,9 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
-  title: "Politika Privatnosti | TM Studio",
+  title: "Politika privatnosti", // " | TM Studio" dodaje layout
+  description: "Kako TM Studio prikuplja, koristi i štiti osobne podatke poslane putem kontakt forme.",
+  alternates: { canonical: "/privatnost" },
 };
 
 export default function PrivatnostPage() {

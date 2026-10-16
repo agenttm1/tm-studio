@@ -56,12 +56,12 @@ export default function Cijene() {
               // istaknuti paket: tanki zlatni rub (prije je kružio oko kartice)
               <div
                 key={pkg.name}
-                className="h-full rounded-[2rem] bg-[linear-gradient(135deg,#F3E7C4,#D4AF37_40%,#AA771C_70%,rgba(212,175,55,0.25))] p-[1.5px] shadow-[0_40px_100px_-40px_rgba(212,175,55,0.6)] lg:-mt-6"
+                className="tm-reveal h-full rounded-[2rem] bg-[linear-gradient(135deg,#F3E7C4,#D4AF37_40%,#AA771C_70%,rgba(212,175,55,0.25))] p-[1.5px] shadow-[0_40px_100px_-40px_rgba(212,175,55,0.6)] lg:-mt-6"
               >
                 <PackageCard pkg={pkg} />
               </div>
             ) : (
-              <div key={pkg.name} className="h-full">
+              <div key={pkg.name} className="tm-reveal h-full">
                 <PackageCard pkg={pkg} />
               </div>
             )
