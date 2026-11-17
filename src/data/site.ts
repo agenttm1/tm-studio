@@ -5,28 +5,23 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import {
-  Home,
-  LayoutGrid,
   AppWindow,
-  Tag,
-  MessageCircle,
-  Sparkles,
   RefreshCw,
   Languages,
   Wrench,
   type LucideIcon,
 } from "lucide-react";
 
-export type NavTab = { id: string; label: string; icon: LucideIcon };
+export type NavTab = { id: string; label: string };
 
-// Redoslijed ovdje = redoslijed u donjem izborniku.
+// Redoslijed ovdje = redoslijed u izborniku.
 // id mora postojati kao id="" na sekciji.
 export const NAV_TABS: NavTab[] = [
-  { id: "pocetna", label: "Početna", icon: Home },
-  { id: "usluge", label: "Usluge", icon: LayoutGrid },
-  { id: "radovi", label: "Radovi", icon: AppWindow },
-  { id: "cijene", label: "Cijene", icon: Tag },
-  { id: "kontakt", label: "Kontakt", icon: MessageCircle },
+  { id: "usluge", label: "Usluge" },
+  { id: "radovi", label: "Radovi" },
+  { id: "proces", label: "Kako radimo" },
+  { id: "cijene", label: "Cijene" },
+  { id: "kontakt", label: "Kontakt" },
 ];
 
 export const CONTACT = {
@@ -38,10 +33,23 @@ export const CONTACT = {
   responseTime: "Javljamo se u roku od 24 sata.", // TODO: možete li to stvarno držati?
 };
 
+export type HeroQuote = {
+  text: string; // prvi dio, bijelo
+  gold: string; // drugi dio, zlatno
+  demo: string; // slug demoa iz demos.ts čija se snimka prikaže uz citat (public/hero/<slug>.webp)
+};
+
 export const HERO = {
+  // H1 za Google: uvijek isti, ne mijenja se s citatom
   kicker: "Izrada web stranica u Istri",
-  titleTop: "Gosti vas traže na mobitelu.",
-  titleGold: "Neka pronađu nešto lijepo.",
+  // Pri svakom ulasku na stranicu prikaže se jedan citat i snimka njegovog demoa,
+  // nikad isti kao prošli put. Ovo su naše poruke, ne izjave klijenata.
+  quotes: [
+    { text: "Smještaj se bira navečer, s kauča.", gold: "Budite prvo što gost vidi.", demo: "villa-olea" },
+    { text: "Gost je probao vaše vino.", gold: "Neka ga naruči i od kuće.", demo: "vinarija-brajda" },
+    { text: "Kad zatvorite vrata,", gold: "stranica i dalje prima narudžbe.", demo: "studio-kalina" },
+    { text: "Roditelji prvo otvore vašu stranicu.", gold: "Neka na njoj nađu sve što ih zanima.", demo: "akademija-meridijan" },
+  ] satisfies HeroQuote[],
   subtitle:
     "Izrađujemo web stranice za konobe, restorane, apartmane i male obrte. Jelovnik, radno vrijeme, lokacija i poziv na jedan dodir, sve na jednom mjestu.",
   primaryCta: "Zatražite besplatnu ponudu", // TODO: je li ponuda besplatna?
@@ -63,7 +71,7 @@ export type Service = {
 // TODO: prilagodi onome što stvarno nudite
 export const SERVICES: Service[] = [
   {
-    icon: Sparkles,
+    icon: AppWindow,
     title: "Nova web stranica",
     text: "Po mjeri vašeg posla. Jelovnik ili cjenik, fotografije, radno vrijeme i kontakt na jednom mjestu.",
     forWho: "Za one koji još nemaju stranicu",
@@ -199,8 +207,8 @@ export const BUSINESS_TYPES = [
   "Nešto drugo",
 ];
 
-// Traka koja klizi ispod heroja (brzina reagira na skrolanje)
-export const MARQUEE_WORDS = [
+// Za koga radimo: red ispod heroja
+export const AUDIENCE = [
   "Konobe",
   "Restorani",
   "Apartmani",

@@ -1,21 +1,34 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
+import { SEO, SITE_URL } from "@/data/seo";
 import "./globals.css";
-import Preloader from "@/components/Preloader";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+// Jedan font za cijelu stranicu. latin-ext je obavezan za č, ć i đ.
+const geist = Geist({
+  variable: "--font-geist",
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "TM Studio | Digital Excellence",
-  description: "Ekskluzivna web rješenja i high-end dizajn.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SEO.title,
+    template: `%s | ${SEO.name}`,
+  },
+  description: SEO.description,
+  applicationName: SEO.name,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "hr_HR",
+    url: "/",
+    siteName: SEO.name,
+    title: SEO.title,
+    description: SEO.description,
+  },
+  twitter: { card: "summary_large_image", title: SEO.title, description: SEO.description },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
@@ -24,15 +37,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="hr"
-      data-scroll-behavior="smooth"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
-        <Preloader />
-        {children}
-      </body>
+    // suppressHydrationWarning: skripta u Hero.tsx postavlja data-hero na <html> prije Reacta
+    <html lang="hr" data-scroll-behavior="smooth" className={`${geist.variable} h-full antialiased`} suppressHydrationWarning>
+      <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );
 }

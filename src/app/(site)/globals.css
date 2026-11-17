@@ -4,41 +4,132 @@
    TM stranica ih ne čita, da ne nosi tuđe klase. */
 @source not "../../components/demo";
 
-:root {
-  /* Još dublja crna, gotovo Vantablack */
-  --color-background: #020202;
-  --color-surface: #0a0a0a; /* Boja za kartice i navbar */
-  --color-foreground: #F0F0F0;
+/* ─────────────────────────────────────────────────────────────────────────────
+   BOJE I FONT — jedino mjesto gdje se mijenjaju.
+   Klase: bg-ink, bg-panel, border-line, text-paper, text-muted, text-gold …
+   Pravilo: zlatna je naglasak (gumb, oznaka, aktivno stanje), ne ukras.
+   ───────────────────────────────────────────────────────────────────────────── */
+@theme {
+  --color-ink: #0a0a0a; /* pozadina */
+  --color-panel: #121211; /* polja, okviri, istaknute plohe */
+  --color-line: #262523; /* tanke crte i rubovi */
+  --color-paper: #edebe6; /* tekst */
+  --color-muted: #a39e94; /* sporedni tekst */
+  --color-faint: #8a857c; /* sitne oznake */
+  --color-gold: #d4af37;
+  --color-gold-bright: #e3c255; /* hover */
+  --color-gold-ink: #120d02; /* tekst na zlatnoj podlozi */
 
-  /* Nova, bogatija "Old Gold" paleta */
-  --color-gold: #B89045; /* Osnovna zlatna, ton tamnija i bogatija */
-  --color-gold-light: #D6B56D; /* Za hover efekte */
-  --color-gold-dark: #8C6A2F; /* Za dubinu i sjenčanje */
+  /* stari nazivi (pravne stranice, Portfolio.tsx) */
+  --color-background: #0a0a0a;
+  --color-foreground: #edebe6;
+  --color-surface: #121211;
 
-  /* Luksuzniji gradijent s oštrijim prijelazima */
-  --background-image-gold-gradient: linear-gradient(135deg, var(--color-gold-light) 0%, var(--color-gold) 45%, var(--color-gold-dark) 100%);
-
-  /* Gradijent za pozadinsku iluminaciju */
-  --background-image-glow-gradient: radial-gradient(circle at center, rgba(184, 144, 69, 0.08) 0%, rgba(2, 2, 2, 0) 70%);
-
-  color-scheme: dark;
+  /* Geist dolazi iz next/font u layout.tsx (varijabla --font-geist na <html>) */
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
 }
 
-html {
-  /* Dodajemo jako blagu teksturu na cijelu stranicu za "skupi" papir/metal osjećaj */
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+@layer base {
+  html {
+    background-color: var(--color-ink);
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    /* Klik na #sekciju klizi sam, bez JavaScripta. scroll-padding = visina
+       zaglavlja, da naslov sekcije ne završi ispod njega. */
+    scroll-behavior: smooth;
+    scroll-padding-top: 4.5rem;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-sans);
+    overflow-x: clip;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-gold);
+    color: var(--color-gold-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+  }
 }
 
-body {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
-  overflow-x: hidden;
-  font-family: 'Inter', system-ui, sans-serif; /* Pobrini se da je tipografija čista */
-}
-
+/* stara klasa na pravnim stranicama: sada obična zlatna, bez gradijenta */
 .text-gradient-gold {
-  background: var(--background-image-gold-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--color-gold);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   POKRET — samo CSS (animation-timeline), bez JavaScripta. Preglednici koji to
+   ne podržavaju (npr. Firefox) prikažu završno stanje, a tko traži manje
+   pokreta ne dobiva ga uopće.
+   ───────────────────────────────────────────────────────────────────────────── */
+@keyframes tm-grow-x {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes tm-grow-y {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+@keyframes tm-step-on {
+  from {
+    border-color: var(--color-line);
+    color: var(--color-faint);
+  }
+  to {
+    border-color: var(--color-gold);
+    color: var(--color-gold);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Proces: zlatna crta se puni dok skrolaš kroz korake, a brojevi se redom
+       upale kad ih crta dosegne. --i = redni broj koraka (0–3).
+       animation-timeline uvijek ide POSLIJE "animation", jer ga ono resetira. */
+    .tm-steps {
+      view-timeline: --tm-steps block;
+    }
+    .tm-steps-fill-y {
+      transform-origin: top;
+      animation: tm-grow-y linear both;
+      animation-timeline: --tm-steps;
+      animation-range: cover 10% cover 72%;
+    }
+    .tm-steps-fill-x {
+      transform-origin: left;
+      animation: tm-grow-x linear both;
+      animation-timeline: --tm-steps;
+      animation-range: cover 10% cover 55%;
+    }
+    .tm-step-dot {
+      animation: tm-step-on linear both;
+      animation-timeline: --tm-steps;
+      animation-range: cover calc(10% + 15.5% * var(--i)) cover calc(13% + 15.5% * var(--i));
+    }
+    @media (min-width: 768px) {
+      .tm-step-dot {
+        animation-range: cover calc(10% + 11.25% * var(--i)) cover calc(12% + 11.25% * var(--i));
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

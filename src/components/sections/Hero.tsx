@@ -1,120 +1,113 @@
-"use client";
+import { ArrowUpRight, Check } from "lucide-react";
+import Button from "@/components/ui/Button";
+import { BrowserFrame } from "@/components/ui/BrowserFrame";
+import { AUDIENCE, HERO } from "@/data/site";
+import { demoHref, getDemo } from "@/data/demos";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Check } from "lucide-react";
-import Hero3D from "@/components/Hero3D";
-import RevealText from "@/components/ui/RevealText";
-import ShineButton from "@/components/ui/ShineButton";
-import { HERO } from "@/data/site";
-import { scrollToId } from "@/lib/scrollToId";
-import { usePreloaderDone } from "@/lib/usePreloaderDone";
+const VARIANTS = HERO.quotes.map((q) => ({ ...q, demo: getDemo(q.demo) }));
+const STORAGE_KEY = "tm-hero";
+const SIZES = "(min-width: 1024px) 560px, 100vw";
+const srcSet = (slug: string) => `/hero/${slug}-720.webp 720w, /hero/${slug}.webp 1280w`;
 
-const ease = [0.22, 1, 0.36, 1] as const;
+// Bira citat prije prvog iscrtavanja: nasumično, ali nikad isti kao prošli put
+// (zadnji se pamti u localStorageu). Postavlja <html data-hero="N">, a CSS ispod
+// prikaže samo taj citat i snimku njegovog demoa — nema treptanja ni skakanja.
+// Odabranu snimku odmah i najavi pregledniku (preload), da stigne s tekstom.
+// Bez JavaScripta (ili ako skripta padne) vidi se prvi citat.
+const PICK_SCRIPT = `(function(){var s=${JSON.stringify(
+  VARIANTS.map((v) => v.demo.slug)
+)},n=s.length,k="${STORAGE_KEY}",i;try{var l=localStorage.getItem(k);l=l===null?-1:+l;i=Math.floor(Math.random()*(l>=0&&l<n?n-1:n));if(l>=0&&l<n&&i>=l)i++;localStorage.setItem(k,i)}catch(e){i=Math.floor(Math.random()*n)}document.documentElement.setAttribute("data-hero",i);var p=document.createElement("link");p.rel="preload";p.as="image";p.imageSrcset="/hero/"+s[i]+"-720.webp 720w, /hero/"+s[i]+".webp 1280w";p.imageSizes="${SIZES}";document.head.appendChild(p)})();`;
+
+const VARIANT_CSS = [
+  ".tm-hero-v{display:none}",
+  'html:not([data-hero]) .tm-hero-v[data-v="0"]{display:block}',
+  ...VARIANTS.map((_, i) => `html[data-hero="${i}"] .tm-hero-v[data-v="${i}"]{display:block}`),
+].join("");
 
 export default function Hero() {
-  const ready = usePreloaderDone();
-  const ref = useRef<HTMLElement>(null);
-
-  // dok skrolaš dolje: tekst se diže i blijedi, petlja se primiče
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, -180]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
-  const contentScale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.3]);
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.9], [1, 0.2]);
-
-  const fade = (delay: number) => ({
-    initial: { opacity: 0, y: 24, filter: "blur(8px)" },
-    animate: ready ? { opacity: 1, y: 0, filter: "blur(0px)" } : {},
-    transition: { duration: 0.9, ease, delay },
-  });
-
   return (
-    <section
-      ref={ref}
-      id="pocetna"
-      className="relative flex min-h-[100svh] items-center justify-center overflow-hidden px-6 pb-40 pt-32"
-    >
-      <motion.div style={{ scale: bgScale, opacity: bgOpacity }} className="absolute inset-0">
-        <Hero3D />
-      </motion.div>
+    <section id="pocetna" className="border-b border-line">
+      <script dangerouslySetInnerHTML={{ __html: PICK_SCRIPT }} />
+      <style dangerouslySetInnerHTML={{ __html: VARIANT_CSS }} />
 
-      {/* tamni jastuk iza teksta da se čita i preko zlatne petlje */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[60%] w-[92%] max-w-4xl -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/75 blur-3xl"
-      />
+      <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 pb-16 pt-32 sm:px-8 lg:grid-cols-2 lg:gap-14 lg:pb-24 lg:pt-44">
+        <div>
+          <h1 className="text-xs font-medium uppercase tracking-[0.18em] text-gold">{HERO.kicker}</h1>
 
-      <motion.div
-        style={{ y: contentY, opacity: contentOpacity, scale: contentScale }}
-        className="relative z-10 mx-auto max-w-5xl text-center"
-      >
-        <motion.p
-          {...fade(0)}
-          className="mx-auto inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-black/40 px-4 py-1.5 text-sm text-[#D4AF37]/90 backdrop-blur"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#D4AF37] opacity-60" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#D4AF37]" />
-          </span>
-          {HERO.kicker}
-        </motion.p>
-
-        <RevealText
-          as="h1"
-          play={ready}
-          delay={0.15}
-          parts={[
-            { text: HERO.titleTop, block: true },
-            { text: HERO.titleGold, gold: true, block: true },
-          ]}
-          className="mt-8 text-[clamp(2.5rem,6.4vw,5.5rem)] font-black leading-[1] tracking-tighter text-[#EDEDED]"
-        />
-
-        <motion.p
-          {...fade(0.75)}
-          className="mx-auto mt-8 max-w-2xl text-lg font-light leading-relaxed text-[#EDEDED]/75 md:text-xl"
-        >
-          {HERO.subtitle}
-        </motion.p>
-
-        <motion.div {...fade(0.9)} className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <ShineButton
-            href="#kontakt"
-            wrapperClassName="w-full sm:w-auto"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToId("kontakt");
-            }}
-          >
-            {HERO.primaryCta}
-          </ShineButton>
-          <ShineButton
-            href="#radovi"
-            variant="outline"
-            wrapperClassName="w-full sm:w-auto"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToId("radovi");
-            }}
-          >
-            {HERO.secondaryCta}
-          </ShineButton>
-        </motion.div>
-
-        <motion.ul
-          {...fade(1.05)}
-          className="mt-10 flex flex-col items-center justify-center gap-x-8 gap-y-3 text-sm text-[#EDEDED]/60 md:flex-row"
-        >
-          {HERO.notes.map((note) => (
-            <li key={note} className="flex items-center gap-2">
-              <Check className="h-4 w-4 text-[#D4AF37]" aria-hidden />
-              {note}
-            </li>
+          {VARIANTS.map((v, i) => (
+            <p
+              key={v.demo.slug}
+              data-v={i}
+              className="tm-hero-v mt-6 text-[clamp(2.25rem,4.4vw,3.5rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-paper"
+            >
+              {v.text} <span className="text-gold lg:block">{v.gold}</span>
+            </p>
           ))}
-        </motion.ul>
-      </motion.div>
+
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">{HERO.subtitle}</p>
+
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <Button href="#kontakt">{HERO.primaryCta}</Button>
+            <Button href="#radovi" variant="outline">
+              {HERO.secondaryCta}
+            </Button>
+          </div>
+        </div>
+
+        {/* snimka demoa koji ide uz citat; jasno označena kao primjer */}
+        <div>
+          {VARIANTS.map((v, i) => (
+            <figure key={v.demo.slug} data-v={i} className="tm-hero-v">
+              <a href={demoHref(v.demo.slug)} className="block" aria-label={`Otvorite demo primjer ${v.demo.name}`}>
+                <BrowserFrame url={v.demo.fakeDomain}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`/hero/${v.demo.slug}.webp`}
+                    srcSet={srcSet(v.demo.slug)}
+                    sizes={SIZES}
+                    width={1280}
+                    height={800}
+                    loading="lazy"
+                    decoding="async"
+                    alt={`Snimka demo stranice ${v.demo.name} (${v.demo.business.toLowerCase()})`}
+                    className="block h-auto w-full"
+                  />
+                </BrowserFrame>
+              </a>
+              <figcaption className="mt-3 flex items-baseline justify-between gap-4 text-sm">
+                <span className="text-muted">
+                  Demo primjer: <span className="text-paper">{v.demo.name}</span>, {v.demo.business.toLowerCase()}
+                </span>
+                <a
+                  href={demoHref(v.demo.slug)}
+                  className="flex shrink-0 items-center gap-1 text-gold transition-colors hover:text-gold-bright"
+                >
+                  Otvorite <ArrowUpRight aria-hidden className="h-4 w-4" />
+                </a>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+
+      {/* tri kratke činjenice i za koga radimo */}
+      <div className="border-t border-line">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <ul className="grid divide-y divide-line md:grid-cols-3 md:divide-x md:divide-y-0">
+            {HERO.notes.map((note) => (
+              <li key={note} className="flex items-center gap-3 py-4 text-sm text-paper md:px-6 md:py-5 md:first:pl-0">
+                <Check aria-hidden className="h-4 w-4 shrink-0 text-gold" />
+                {note}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div className="border-t border-line">
+        <p className="mx-auto max-w-6xl px-5 py-4 text-sm leading-relaxed text-faint sm:px-8">
+          <span className="text-muted">Radimo za:</span> {AUDIENCE.join(" · ")}
+        </p>
+      </div>
     </section>
   );
 }
