@@ -168,15 +168,18 @@ export default function Radovi() {
   return (
     <section ref={sectionRef} id="radovi" className="overflow-x-clip border-b border-line">
       <div className="mx-auto max-w-6xl px-5 py-20 sm:px-8 md:py-28">
-        <SectionHeading eyebrow="Radovi" title="Četiri posla, četiri stranice." />
+        <SectionHeading eyebrow="Radovi" title="Četiri posla," gold="četiri stranice." />
 
         {/* Iskreno i odmah vidljivo: ovo nisu klijenti. */}
-        <p className="mt-6 max-w-2xl border-l-2 border-gold pl-4 leading-relaxed text-muted">
+        <p data-reveal="" className="mt-6 max-w-2xl border-l-2 border-gold pl-4 leading-relaxed text-muted">
           Ovo su demonstracijski primjeri koje smo izradili da pokažemo što radimo. Nisu stranice stvarnih klijenata.
         </p>
 
         {/* Odabir demoa */}
-        <ul className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-line bg-line lg:grid-cols-4">
+        <ul
+          data-reveal=""
+          className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-line bg-line lg:grid-cols-4"
+        >
           {DEMOS.map((d, i) => {
             const active = i === index;
             return (
@@ -187,14 +190,14 @@ export default function Radovi() {
                   aria-pressed={active}
                   aria-controls="radovi-pregled"
                   className={`flex w-full flex-col gap-1 px-4 py-4 text-left transition-colors duration-150 focus-visible:-outline-offset-2 sm:px-5 ${
-                    active ? "bg-panel shadow-[inset_0_2px_0_var(--color-gold)]" : "bg-ink hover:bg-panel"
+                    active ? "bg-panel shadow-[inset_0_3px_0_var(--color-gold)]" : "bg-ink hover:bg-panel"
                   }`}
                 >
                   <span className="flex items-center gap-2 text-xs text-faint">
                     <span aria-hidden className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: d.accent }} />
                     <span className="truncate">{d.business}</span>
                   </span>
-                  <span className={`text-[15px] font-medium sm:text-base ${active ? "text-paper" : "text-muted"}`}>
+                  <span className={`text-[15px] font-medium sm:text-base ${active ? "text-gold" : "text-muted"}`}>
                     {d.name}
                   </span>
                 </button>
@@ -204,7 +207,7 @@ export default function Radovi() {
         </ul>
 
         {/* Okvir s demoom */}
-        <div id="radovi-pregled" className="mt-6">
+        <div id="radovi-pregled" data-reveal="" className="mt-6">
           {/* računalo */}
           <div className="relative hidden md:block">
             <BrowserFrame url={demo.fakeDomain}>{preview(DESKTOP, isDesktop === true)}</BrowserFrame>
@@ -234,7 +237,10 @@ export default function Radovi() {
           <div className="flex flex-col gap-3 sm:flex-row md:col-span-5 md:justify-end">
             <Button href={demoHref(demo.slug)} target="_blank">
               Otvorite {demo.name}
-              <ArrowUpRight aria-hidden className="h-4 w-4" />
+              <ArrowUpRight
+                aria-hidden
+                className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              />
             </Button>
             <Button href="#kontakt" variant="outline">
               Želim ovakvu stranicu

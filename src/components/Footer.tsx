@@ -8,17 +8,17 @@ const SOCIAL = [
   { label: "TikTok", href: "https://www.tiktok.com/@tmstudios31" },
 ];
 
-const heading = "text-xs font-medium uppercase tracking-[0.18em] text-faint";
+const heading = "text-xs font-semibold uppercase tracking-[0.18em] text-gold";
 const link = "text-sm text-muted transition-colors hover:text-gold";
 
 export default function Footer() {
   return (
-    <footer>
+    <footer className="border-t-2 border-gold">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 sm:px-8 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <a href="#pocetna" className="flex items-center gap-2.5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/tm-logo.webp" alt="" width={28} height={28} loading="lazy" className="h-7 w-7 rounded-full" />
+            <img src="/tm-logo.webp" alt="" width={28} height={28} loading="lazy" className="h-7 w-7 rounded-full ring-1 ring-gold/60" />
             <span className="text-[15px] font-semibold tracking-tight text-paper">TM Studio</span>
           </a>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted">

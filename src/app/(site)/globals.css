@@ -16,8 +16,8 @@
   --color-paper: #edebe6; /* tekst */
   --color-muted: #a39e94; /* sporedni tekst */
   --color-faint: #8a857c; /* sitne oznake */
-  --color-gold: #d4af37;
-  --color-gold-bright: #e3c255; /* hover */
+  --color-gold: #f5c21b; /* jarka zlatna: mora se vidjeti */
+  --color-gold-bright: #ffd84a; /* hover */
   --color-gold-ink: #120d02; /* tekst na zlatnoj podlozi */
 
   /* stari nazivi (pravne stranice, Portfolio.tsx) */
@@ -37,7 +37,8 @@
     /* Klik na #sekciju klizi sam, bez JavaScripta. scroll-padding = visina
        zaglavlja, da naslov sekcije ne završi ispod njega. */
     scroll-behavior: smooth;
-    scroll-padding-top: 4.5rem;
+    scroll-padding-top: calc(4rem + 1px);
+    scrollbar-color: var(--color-gold) var(--color-ink);
   }
 
   body {
@@ -59,16 +60,84 @@
   }
 }
 
-/* stara klasa na pravnim stranicama: sada obična zlatna, bez gradijenta */
-.text-gradient-gold {
-  color: var(--color-gold);
+/* ─────────────────────────────────────────────────────────────────────────────
+   POKRET — sve je CSS; JavaScript samo javi kad element uđe u ekran (page.tsx).
+   Animira se isključivo transform i opacity (ne opterećuje stranicu), osim
+   jednokratnog "bojenja" citata. Tko u sustavu traži manje pokreta, vidi
+   završno stanje bez animacija (pravilo na dnu datoteke).
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* 1. Ulazak dijelova heroja pri učitavanju. --d = redni broj (kašnjenje). */
+@keyframes tm-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+.tm-rise {
+  animation: tm-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--d, 0) * 90ms);
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   POKRET — samo CSS (animation-timeline), bez JavaScripta. Preglednici koji to
-   ne podržavaju (npr. Firefox) prikažu završno stanje, a tko traži manje
-   pokreta ne dobiva ga uopće.
-   ───────────────────────────────────────────────────────────────────────────── */
+/* 2. Zlatni dio citata "oboji se" slijeva nadesno, jednom */
+@keyframes tm-gild {
+  from { background-position: 100% 0; }
+  to { background-position: 0 0; }
+}
+.tm-gild {
+  color: var(--color-gold);
+}
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .tm-gild {
+    background-image: linear-gradient(90deg, var(--color-gold) 0 50%, var(--color-paper) 50% 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    /* kreće sekundu nakon učitavanja, kad je stranica već mirna */
+    animation: tm-gild 0.9s 1s cubic-bezier(0.65, 0, 0.35, 1) both;
+  }
+}
+
+/* 3. Zlatna traka koja klizi: tri iste kopije, pomak za točno jednu (-33,33%) */
+@keyframes tm-marquee {
+  to { transform: translateX(-33.3333%); }
+}
+.tm-marquee-track {
+  animation: tm-marquee 28s linear infinite;
+}
+.tm-marquee:hover .tm-marquee-track {
+  animation-play-state: paused;
+}
+
+/* 4. Otkrivanje pri skrolanju. Skripta u page.tsx postavi html.tm-js i, kad
+      element uđe u ekran, data-reveal="in". Bez skripte je sve odmah vidljivo. */
+.tm-js [data-reveal] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--d, 0) * 80ms);
+}
+.tm-js [data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+}
+/* zlatna crtica uz oznaku sekcije izraste kad se naslov otkrije */
+.tm-js [data-reveal] .tm-line {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.8s 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tm-js [data-reveal="in"] .tm-line {
+  transform: scaleX(1);
+}
+
+/* 5. Zlatna crta napretka ispod zaglavlja: vidi se samo gdje preglednik to podržava */
+.tm-scroll-progress {
+  display: none;
+}
+
 @keyframes tm-grow-x {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
@@ -80,16 +149,25 @@
 @keyframes tm-step-on {
   from {
     border-color: var(--color-line);
+    background-color: var(--color-ink);
     color: var(--color-faint);
   }
   to {
     border-color: var(--color-gold);
-    color: var(--color-gold);
+    background-color: var(--color-gold);
+    color: var(--color-gold-ink);
   }
 }
 
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
+    .tm-scroll-progress {
+      display: block;
+      transform-origin: left;
+      animation: tm-grow-x linear both;
+      animation-timeline: scroll(root);
+    }
+
     /* Proces: zlatna crta se puni dok skrolaš kroz korake, a brojevi se redom
        upale kad ih crta dosegne. --i = redni broj koraka (0–3).
        animation-timeline uvijek ide POSLIJE "animation", jer ga ono resetira. */

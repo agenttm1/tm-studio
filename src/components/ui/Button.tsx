@@ -1,12 +1,14 @@
 import type { ReactNode } from "react";
 
-// Jedini gumb na stranici: zlatni (glavna radnja) ili obrubljeni (sporedna).
+// Jedini gumb na stranici: zlatni (glavna radnja), obrubljeni (sporedna) ili
+// crni (na zlatnoj podlozi). Na hover se malo podigne; zlatni dobije sjaj.
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-[15px] font-medium transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-60";
+  "group inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-[15px] font-semibold transition-[transform,box-shadow,background-color,border-color,color] duration-200 hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60";
 
 const variants = {
-  gold: "bg-gold text-gold-ink hover:bg-gold-bright",
-  outline: "border border-line text-paper hover:border-muted",
+  gold: "bg-gold text-gold-ink hover:bg-gold-bright hover:shadow-[0_12px_32px_-10px_var(--color-gold)]",
+  outline: "border border-line text-paper hover:border-gold hover:text-gold",
+  ink: "bg-ink text-gold hover:bg-black",
 };
 
 interface ButtonProps {

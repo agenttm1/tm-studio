@@ -25,7 +25,7 @@ export default function OgImage() {
         <div style={{ display: "flex", fontSize: 30, fontWeight: 600 }}>TM Studio</div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ fontSize: 84, fontWeight: 600, letterSpacing: -3, lineHeight: 1.05 }}>Gosti vas traže na mobitelu.</div>
-          <div style={{ fontSize: 84, fontWeight: 600, letterSpacing: -3, lineHeight: 1.05, color: "#D4AF37" }}>
+          <div style={{ fontSize: 84, fontWeight: 600, letterSpacing: -3, lineHeight: 1.05, color: "#F5C21B" }}>
             Neka pronađu nešto lijepo.
           </div>
         </div>

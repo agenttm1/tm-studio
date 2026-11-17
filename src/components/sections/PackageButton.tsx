@@ -8,7 +8,7 @@ export default function PackageButton({ name, featured }: { name: string; featur
   return (
     <Button
       href="#kontakt"
-      variant={featured ? "gold" : "outline"}
+      variant={featured ? "ink" : "outline"}
       className="w-full"
       onClick={() => window.dispatchEvent(new CustomEvent(PACKAGE_EVENT, { detail: name }))}
     >
