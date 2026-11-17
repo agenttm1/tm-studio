@@ -1,7 +1,6 @@
 import Navbar from "@/components/Navbar";
 import OverflowGuard from "@/components/ui/OverflowGuard";
 import Hero from "@/components/sections/Hero";
-import Marquee from "@/components/sections/Marquee";
 import Usluge from "@/components/sections/Usluge";
 import Radovi from "@/components/sections/Radovi";
 import Proces from "@/components/sections/Proces";
@@ -22,7 +21,6 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <Marquee />
         <Usluge />
         <Radovi />
         <Proces />
@@ -31,8 +29,6 @@ export default function Home() {
         <Kontakt />
       </main>
       <Footer />
-      {/* prostor ispod footera da donji izbornik na mobitelu ne prekrije zadnji red */}
-      <div aria-hidden className="h-28 lg:hidden" />
     </>
   );
 }

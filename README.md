@@ -62,6 +62,16 @@ nasljeđuje CSS, fontove ni Preloader glavne stranice. Glavna stranica je u grup
 4. Dodaj jedan objekt u `src/data/demos.ts` (provjeri da `fakeDomain` ne postoji).
    Kartica, okvir i poveznica u footeru pojave se sami.
 
+5. Ako demo treba i u heroju: snimka 1280×800 u `public/hero/<slug>.webp` (i `<slug>-720.webp`),
+   pa citat s tim slugom u `HERO.quotes` u `src/data/site.ts`.
+
 Kontakt podaci u demoima moraju biti izmišljeni (`.example` domene, brojevi s `000`).
 
 **Kontakt forma:** `/api/contact` čita `RESEND_API_KEY` tek pri slanju, pa build prolazi i bez njega. Bez ključa forma javlja grešku.
+
+## Izgled glavne stranice
+
+Boje i font su na jednom mjestu: `@theme` u `src/app/(site)/globals.css`
+(`bg-ink`, `border-line`, `text-paper`, `text-muted`, `text-gold` …). Zlatna je naglasak
+(gumb, oznaka, aktivno stanje), ne ukras. Zajednički dijelovi: `ui/Section`, `ui/SectionHeading`,
+`ui/Button`, `ui/BrowserFrame`. Sav tekst je u `src/data/site.ts`.

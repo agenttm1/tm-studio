@@ -17,22 +17,19 @@ export default function OgImage() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "72px 80px",
-          background: "radial-gradient(circle at 75% 40%, #2a1f08 0%, #020202 60%)",
-          color: "#EDEDED",
+          background: "#0a0a0a",
+          color: "#edebe6",
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 30, letterSpacing: 6 }}>
-          <div style={{ width: 44, height: 44, borderRadius: 44, border: "3px solid #D4AF37", display: "flex" }} />
-          TM STUDIO
-        </div>
+        <div style={{ display: "flex", fontSize: 30, fontWeight: 600 }}>TM Studio</div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 88, fontWeight: 900, letterSpacing: -3, lineHeight: 1 }}>Gosti vas traže na mobitelu.</div>
-          <div style={{ fontSize: 88, fontWeight: 900, letterSpacing: -3, lineHeight: 1, color: "#D4AF37", fontStyle: "italic" }}>
+          <div style={{ fontSize: 84, fontWeight: 600, letterSpacing: -3, lineHeight: 1.05 }}>Gosti vas traže na mobitelu.</div>
+          <div style={{ fontSize: 84, fontWeight: 600, letterSpacing: -3, lineHeight: 1.05, color: "#D4AF37" }}>
             Neka pronađu nešto lijepo.
           </div>
         </div>
-        <div style={{ display: "flex", fontSize: 30, color: "rgba(237,237,237,0.7)" }}>Izrada web stranica u Istri · tmstudio.com.hr</div>
+        <div style={{ display: "flex", fontSize: 30, color: "#a39e94" }}>Izrada web stranica u Istri · tmstudio.com.hr</div>
       </div>
     ),
     size

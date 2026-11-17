@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
+import { Geist } from "next/font/google";
 import { SEO, SITE_URL } from "@/data/seo";
 import "./globals.css";
 
-// Bez preloadera i bez web fontova: stranica se prikaže odmah, a tekst je u
-// sistemskom fontu (isto kao i do sada — Geist se učitavao, ali nije se koristio).
+// Jedan font za cijelu stranicu. latin-ext je obavezan za č, ć i đ.
+const geist = Geist({
+  variable: "--font-geist",
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -33,8 +38,8 @@ export default function RootLayout({
 }>) {
   return (
     // suppressHydrationWarning: skripta u Hero.tsx postavlja data-hero na <html> prije Reacta
-    <html lang="hr" data-scroll-behavior="smooth" className="h-full antialiased" suppressHydrationWarning>
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="hr" data-scroll-behavior="smooth" className={`${geist.variable} h-full antialiased`} suppressHydrationWarning>
+      <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );
 }
