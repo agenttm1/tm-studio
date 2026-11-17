@@ -22,19 +22,20 @@ export default function Pitanja() {
         <SectionHeading
           className="lg:sticky lg:top-28 lg:self-start"
           eyebrow="Pitanja"
-          title="Pitanja koja nam najčešće postavljate."
+          title="Pitanja koja nam"
+          gold="najčešće postavljate."
           subtitle="Ne vidite svoje pitanje? Pošaljite nam poruku, odgovaramo na sve."
         />
 
         {/* isti name = otvoreno je samo jedno pitanje, a tekst i dalje vidi Google */}
-        <div className="border-t border-line">
+        <div data-reveal="" className="border-t border-line">
           {FAQ.map((item, i) => (
             <details key={item.q} name="tm-pitanja" open={i === 0} className="tm-faq group border-b border-line">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-base font-medium text-paper transition-colors hover:text-gold md:text-lg [&::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-base font-medium text-paper transition-colors hover:text-gold group-open:text-gold md:text-lg [&::-webkit-details-marker]:hidden">
                 {item.q}
                 <Plus
                   aria-hidden
-                  className="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-45 group-open:text-gold"
+                  className="h-5 w-5 shrink-0 text-gold transition-transform duration-300 group-open:rotate-45"
                 />
               </summary>
               <p className="max-w-2xl pb-6 pr-10 leading-relaxed text-muted">{item.a}</p>

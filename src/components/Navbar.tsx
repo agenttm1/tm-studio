@@ -44,7 +44,7 @@ export default function Navbar() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-6 px-5 sm:px-8">
         <a href="#pocetna" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/tm-logo.webp" alt="" width={28} height={28} className="h-7 w-7 rounded-full" />
+          <img src="/tm-logo.webp" alt="" width={28} height={28} className="h-7 w-7 rounded-full ring-1 ring-gold/60" />
           <span className="text-[15px] font-semibold tracking-tight text-paper">TM Studio</span>
         </a>
 
@@ -57,12 +57,18 @@ export default function Navbar() {
                   <a
                     href={`#${tab.id}`}
                     aria-current={isActive ? "true" : undefined}
-                    className={`relative py-2 text-sm transition-colors duration-150 ${
-                      isActive ? "text-paper" : "text-muted hover:text-paper"
+                    className={`group relative py-2 text-sm font-medium transition-colors duration-200 ${
+                      isActive ? "text-gold" : "text-muted hover:text-paper"
                     }`}
                   >
                     {tab.label}
-                    {isActive && <span aria-hidden className="absolute inset-x-0 -bottom-px h-px bg-gold" />}
+                    {/* zlatna crtica: izraste na hover, ostaje na aktivnoj stavci */}
+                    <span
+                      aria-hidden
+                      className={`absolute inset-x-0 -bottom-0.5 h-0.5 origin-left bg-gold transition-transform duration-300 ${
+                        isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                      }`}
+                    />
                   </a>
                 </li>
               );
@@ -86,6 +92,9 @@ export default function Navbar() {
           </button>
         </div>
       </div>
+
+      {/* zlatna crta napretka kroz stranicu (CSS scroll timeline, globals.css) */}
+      <div aria-hidden className="tm-scroll-progress absolute inset-x-0 -bottom-px h-0.5 bg-gold" />
 
       {/* mobitel: izbornik se otvara ispod zaglavlja */}
       <nav
